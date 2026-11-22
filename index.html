@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f6f3ed">
+<title>GrantPath — путь к гранту за рубежом</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="assistant.css">
+
+</head>
+<body>
+<a class="skip" href="#main">К содержимому</a>
+<header class="top"><div class="bar">
+  <button class="logo" data-go="home" aria-label="GrantPath — на главную">Grant<i>Path</i></button>
+  <nav aria-label="Основная навигация">
+    <button data-go="home">Главная</button>
+    <button data-go="match">Подбор</button>
+    <button data-go="cat">Университеты</button>
+    <button data-go="fav">Избранное</button>
+    <button data-go="cmp">Сравнение</button>
+    <button data-go="plan">Мой путь</button>
+    <button data-go="calc">Калькулятор</button>
+  </nav>
+</div></header>
+
+<main id="main" tabindex="-1">
+
+<!-- ГЛАВНАЯ -->
+<section id="home">
+  <div class="hero">
+    <h1>Покажите оценки, экзамены и бюджет — узнайте, куда можно поступить</h1>
+    <p>GrantPath подбирает университеты по вашему профилю, делит их на Reach, Match и Safety, показывает реальную стоимость обучения в долларах и тенге и помогает спланировать поступление шаг за шагом.</p>
+    <div class="row"><button class="btn" data-go="match">Начать подбор</button><button class="btn sec" data-go="calc">Рассчитать бюджет</button></div>
+  </div>
+  <div class="grid stats" id="stats"></div>
+  <div class="grid two" style="margin-bottom:16px">
+    <div class="card"><h2>Мои дедлайны</h2><div id="dl"></div></div>
+    <div class="card"><h2>Что дальше</h2>
+      <ol class="bul" style="color:var(--mute);padding-left:20px">
+        <li>Пройдите подбор программ.</li><li>Добавьте лучшие варианты в избранное и сравните до 4 университетов.</li><li>Рассчитайте бюджет в калькуляторе.</li><li>Откройте «Мой путь» и отмечайте выполненные шаги.</li>
+      </ol></div>
+  </div>
+  <div class="card"><h2>Для абитуриентов из Казахстана</h2>
+    <ul class="bul" style="color:var(--mute)">
+      <li>GPA можно вводить по шкале 5.0 или 4.0. Пересчёт 5.0 → 4.0 приблизительный и не является официальным эквивалентом.</li>
+      <li>Все суммы показываются в долларах и тенге. Курс вы вводите сами — он не подгружается автоматически.</li>
+      <li>Для казахстанских вузов можно указать балл ЕНТ. Проходные баллы зависят от специальности и года — требуют уточнения.</li>
+      <li>Требования к документам (перевод, апостиль, нострификация) зависят от страны и университета.</li>
+    </ul></div>
+</section>
+
+<!-- ПОДБОР -->
+<section id="match" hidden>
+  <form class="card" id="wiz" style="max-width:660px" novalidate>
+    <div class="prog" aria-hidden="true"><div id="pb"></div></div>
+    <p class="stepno" id="stepno"></p>
+    <h2 id="q">Вопрос</h2>
+    <div id="qf"></div>
+    <div class="row">
+      <button type="button" class="btn sec" id="back">Назад</button>
+      <button type="submit" class="btn" id="next">Далее</button>
+    </div>
+  </form>
+  <div id="out" hidden>
+    <div class="rhead">
+      <div><h2>Подходящие программы</h2><p class="hint" id="rsum"></p></div>
+      <button class="btn sec" id="redo" type="button">Изменить ответы</button>
+    </div>
+    <div class="card note" role="note" style="margin-bottom:16px"><b>Как читать результаты.</b> «Индекс соответствия профиля» показывает, насколько ваши данные близки к ориентировочным требованиям университета. Это не вероятность поступления: у GrantPath нет статистики по приёмным комиссиям. Reach, Match и Safety — условные категории. Стоимость «без гранта» — это то, что нужно рассчитывать наверняка; сценарий с грантом — условный и не гарантирован.</div>
+    <div class="card" style="margin-bottom:16px">
+      <h4>Выбранные страны</h4>
+      <div class="tagbox" id="rTags" aria-live="polite"></div>
+      <button class="btn sec sm" type="button" data-act="step" data-k="countries">Изменить страны</button>
+    </div>
+    <div class="card toolbar">
+      <div class="field"><label for="rsort">Сортировка</label><select id="rsort">
+        <option value="idx">По индексу соответствия</option><option value="cost0">По стоимости без гранта</option><option value="costG">По стоимости с грантом (условно)</option><option value="gr">По размеру гранта</option><option value="name">По названию</option></select></div>
+      <div class="field"><label for="rcat">Категория</label><select id="rcat"><option value="">Все категории</option><option value="reach">Reach</option><option value="match">Match</option><option value="safety">Safety</option></select></div>
+      <div class="field"><label for="rbud">Годовой бюджет</label><select id="rbud"><option value="">Любые</option><option value="ok">В бюджете без гранта</option><option value="grant">В бюджете, включая сценарий с грантом</option></select></div>
+      <div class="field"><label for="rfield">Направление</label><select id="rfield"></select></div>
+    </div>
+    <div id="kz" style="margin-bottom:16px"></div>
+    <div class="cards" id="list"></div>
+  </div>
+</section>
+
+<!-- КАТАЛОГ -->
+<section id="cat" hidden>
+  <h2>Каталог университетов</h2>
+  <p class="hint" style="margin:-6px 0 14px">Требования (GPA, IELTS, SAT) и стоимость ориентировочные. Актуальные данные и условия грантов уточняйте на официальном сайте университета.</p>
+  <div class="card toolbar" style="margin-bottom:16px">
+    <div class="field"><label for="qs">Поиск по названию или стране</label><input id="qs" type="search" placeholder="Например, Munich" autocomplete="off"></div>
+    <div class="field"><label for="qc">Страна</label><select id="qc"></select></div>
+    <div class="field"><label for="qf2">Направление</label><select id="qf2"></select></div>
+    <div class="field"><label for="qm">Макс. стоимость в год без гранта, $</label><input id="qm" type="number" min="0" step="500" placeholder="Без ограничений"></div>
+    <div class="field"><label for="qo">Сортировка</label><select id="qo"><option value="name">По названию</option><option value="cost0">По стоимости</option><option value="gr">По размеру гранта-ориентира</option><option value="gpa">По требованию GPA</option></select></div>
+  </div>
+  <p class="hint" id="qcount" style="margin-bottom:12px" aria-live="polite"></p>
+  <div class="cards" id="catlist"></div>
+</section>
+
+<!-- ИЗБРАННОЕ -->
+<section id="fav" hidden>
+  <h2>Избранное</h2>
+  <div class="cards" id="favlist"></div>
+</section>
+
+<!-- СРАВНЕНИЕ -->
+<section id="cmp" hidden>
+  <div class="rhead"><div><h2>Сравнение университетов</h2><p class="hint">До 4 университетов одновременно. Добавляйте их кнопкой «Сравнить» в каталоге, подборе или избранном.</p></div>
+  <button class="btn sec" type="button" data-act="cmpclear" id="cmpclr">Очистить сравнение</button></div>
+  <div id="cmpout"></div>
+</section>
+
+<!-- МОЙ ПУТЬ -->
+<section id="plan" hidden>
+  <div class="rhead"><div><h2>Мой путь к поступлению</h2><p class="hint">Отмечайте выполненные шаги. Даты вы вводите сами: они не проверяются и не считаются официальными дедлайнами университетов.</p></div>
+  <button class="btn sec" type="button" id="planreset">Сбросить прогресс</button></div>
+  <div class="card" style="margin-bottom:16px"><b id="plabel"></b><div class="pbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="pbar2"><div id="pfill" style="width:0"></div></div>
+    <div id="ptargets" class="hint"></div></div>
+  <ul class="tasks" id="tasks"></ul>
+</section>
+
+<!-- КАЛЬКУЛЯТОР -->
+<section id="calc" hidden>
+  <div class="grid two">
+    <div class="card"><h2>Калькулятор стоимости обучения</h2>
+      <div class="field"><label for="cu">Подставить данные университета (необязательно)</label><select id="cu"></select><p class="hint" id="cnote"></p></div>
+      <div class="field"><label for="cc">Валюта ввода</label><select id="cc"><option value="USD">Доллары ($)</option><option value="KZT">Тенге (₸)</option></select></div>
+      <div class="f2">
+        <div class="field"><label for="c1">Обучение в год</label><input id="c1" type="number" min="0" step="any" inputmode="decimal"></div>
+        <div class="field"><label for="c2">Проживание в год</label><input id="c2" type="number" min="0" step="any" inputmode="decimal"></div>
+        <div class="field"><label for="c3">Питание в год</label><input id="c3" type="number" min="0" step="any" inputmode="decimal"></div>
+        <div class="field"><label for="c4">Транспорт в год</label><input id="c4" type="number" min="0" step="any" inputmode="decimal"></div>
+        <div class="field"><label for="c5">Страхование в год</label><input id="c5" type="number" min="0" step="any" inputmode="decimal"></div>
+        <div class="field"><label for="c6">Прочие расходы в год</label><input id="c6" type="number" min="0" step="any" inputmode="decimal"></div>
+        <div class="field"><label for="cg">Частичный грант на обучение, %</label><input id="cg" type="number" min="0" max="100" step="any"></div>
+        <div class="field"><label for="cy">Срок обучения, лет</label><input id="cy" type="number" min="1" max="8" step="1"></div>
+      </div>
+      <div class="field"><label for="cr">Курс, ₸ за 1 $</label><input id="cr" type="number" min="1" step="any"><p class="hint">Курс вводится вручную и не обновляется автоматически — укажите актуальный.</p></div>
+      <p class="err" id="cerr" role="alert"></p>
+    </div>
+    <div class="card"><h2>Ваш бюджет</h2><div id="cres"></div></div>
+  </div>
+</section>
+
+</main>
+<div id="cmpbar" hidden><span id="cmpn"></span><button class="btn sm" type="button" data-go="cmp">Сравнить</button></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<dialog id="cityDialog" class="city-dialog" aria-labelledby="cityTitle">
+  <div class="city-dialog-head"><div><p class="eyebrow">СРЕДА ДЛЯ ЖИЗНИ И УЧЁБЫ</p><h2 id="cityTitle">Информация о городе</h2></div><button class="icon-close" type="button" id="cityClose" aria-label="Закрыть">×</button></div>
+  <div id="cityBody"></div>
+</dialog>
+
+
+<script src="script.js" defer></script>
+<script src="assistant.js" defer></script>
+</body>
+</html>

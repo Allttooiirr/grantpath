@@ -1,0 +1,55 @@
+/* GrantPath AI Assistant — изолированные стили, все селекторы с префиксом gpai- */
+.gpai-fab{position:fixed;right:18px;bottom:18px;z-index:50;display:inline-flex;align-items:center;gap:10px;padding:8px 18px 8px 8px;border:0;border-radius:999px;background:var(--ink,#20251f);color:#fff;font:600 13px/1.2 "DM Sans",system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 28px rgba(32,37,31,.28);transition:transform .18s,background .18s}
+.gpai-fab:hover{background:var(--accent-dark,#963a26);transform:translateY(-2px)}
+.gpai-fab-ico{width:38px;height:38px;border-radius:50%;background:var(--accent,#bd4d32);display:grid;place-items:center;flex:none}
+.gpai-fab-ico svg{width:22px;height:22px}
+
+.gpai-panel{position:fixed;right:18px;bottom:18px;z-index:50;width:410px;max-width:calc(100vw - 24px);height:min(660px,calc(100vh - 36px));display:flex;flex-direction:column;background:var(--surface,#fffefa);color:var(--ink,#20251f);border:1px solid var(--line-dark,#c9c4b8);border-radius:var(--radius,17px);box-shadow:0 24px 70px rgba(32,37,31,.3);overflow:hidden;font:400 14px/1.5 "DM Sans",system-ui,sans-serif;outline:none}
+.gpai-head{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--ink,#20251f);color:#fff}
+.gpai-head-ico{width:34px;height:34px;border-radius:50%;background:var(--accent,#bd4d32);display:grid;place-items:center;flex:none}
+.gpai-head-ico svg{width:20px;height:20px}
+.gpai-title{flex:1;min-width:0;line-height:1.25}
+.gpai-title b{display:block;font:400 18px/1.2 "DM Serif Display",Georgia,serif}
+.gpai-title small{display:block;font-size:11px;opacity:.75}
+.gpai-hbtn{border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;border-radius:7px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+.gpai-hbtn:hover{background:rgba(255,255,255,.16)}
+.gpai-x{font-size:20px;line-height:1;padding:3px 10px}
+
+.gpai-tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 12px;background:var(--paper-2,#eeebe4);border-bottom:1px solid var(--line,#dedbd2);flex:none}
+.gpai-tab{flex:none;text-align:left;padding:6px 11px;border:1px solid var(--line-dark,#c9c4b8);background:var(--surface,#fffefa);color:var(--ink,#20251f);border-radius:8px;cursor:pointer;line-height:1.25}
+.gpai-tab b{display:block;font-size:12px;font-weight:700}
+.gpai-tab small{display:block;font-size:10.5px;color:var(--muted,#72776e)}
+.gpai-tab:hover{border-color:var(--ink,#20251f)}
+.gpai-tab[aria-pressed="true"]{background:var(--ink,#20251f);border-color:var(--ink,#20251f);color:#fff}
+.gpai-tab[aria-pressed="true"] small{color:rgba(255,255,255,.75)}
+
+.gpai-log{flex:1;min-height:0;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--paper,#f6f3ed)}
+.gpai-msg{max-width:92%;padding:9px 12px;border-radius:12px;overflow-wrap:anywhere}
+.gpai-msg p+p{margin-top:8px}
+.gpai-msg ul{padding-left:18px;margin:6px 0}
+.gpai-msg li{margin-bottom:4px}
+.gpai-msg ul:last-child{margin-bottom:0}
+.gpai-who{display:block;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;margin-bottom:3px;opacity:.7}
+.gpai-user{align-self:flex-end;background:var(--accent,#bd4d32);color:#fff;border-bottom-right-radius:3px}
+.gpai-bot{align-self:flex-start;background:var(--surface,#fffefa);border:1px solid var(--line,#dedbd2);border-bottom-left-radius:3px}
+.gpai-sys{align-self:center;max-width:100%;text-align:center;font-size:12.5px;background:var(--gold-soft,#f4ecd9);border:1px solid #e9dec5;color:#555a50}
+
+.gpai-qs{flex:none;max-height:42%;overflow-y:auto;padding:10px 12px 6px;background:var(--surface,#fffefa);border-top:1px solid var(--line,#dedbd2)}
+.gpai-qs-title{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#72776e);margin-bottom:8px}
+.gpai-q{display:block;width:100%;text-align:left;margin-bottom:6px;padding:9px 11px;border:1px solid var(--line-dark,#c9c4b8);border-radius:8px;background:var(--surface,#fffefa);color:var(--ink,#20251f);font-size:13px;font-weight:500;line-height:1.35;cursor:pointer}
+.gpai-q:hover{border-color:var(--accent,#bd4d32);background:var(--accent-soft,#f5e5dd)}
+.gpai-backbar{flex:none;padding:10px 12px;background:var(--surface,#fffefa);border-top:1px solid var(--line,#dedbd2)}
+.gpai-back{width:100%;padding:10px;border:1px solid var(--line-dark,#c9c4b8);border-radius:8px;background:transparent;color:var(--ink,#20251f);font-size:13px;font-weight:600;cursor:pointer}
+.gpai-back:hover{background:var(--paper-2,#eeebe4);border-color:var(--ink,#20251f)}
+
+.gpai-form{flex:none;display:flex;gap:8px;padding:10px 12px 6px;background:var(--surface,#fffefa);border-top:1px solid var(--line,#dedbd2)}
+.gpai-input{flex:1;width:auto;min-width:0;min-height:42px;padding:9px 12px;border:1px solid var(--line-dark,#c9c4b8);border-radius:7px;background:#fffefa;font-size:14px}
+.gpai-send{border:0;border-radius:7px;padding:0 16px;background:var(--accent,#bd4d32);color:#fff;font-size:13px;font-weight:600;cursor:pointer}
+.gpai-send:hover{background:var(--accent-dark,#963a26)}
+.gpai-note{flex:none;padding:0 12px 10px;background:var(--surface,#fffefa);font-size:11px;line-height:1.4;color:var(--muted,#72776e)}
+
+@media (max-width:520px){
+  .gpai-panel{right:0;bottom:0;width:100vw;max-width:100vw;height:100vh;height:100dvh;border-radius:0;border:0}
+  .gpai-fab{right:12px;bottom:12px}
+}
+@media print{#gpai-root{display:none}}
