@@ -1,26 +1,16 @@
-
-import { GoogleGenAI } from "@google/genai";
-
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY
-});
-
 const SYSTEM_PROMPT = `
-Ты — GrantPath AI, интеллектуальный образовательный консультант
-платформы GrantPath.
+Ты — GrantPath AI, интеллектуальный образовательный консультант платформы GrantPath.
 
 ТВОЯ МИССИЯ:
-Помогать школьникам и студентам находить образовательные
-возможности, гранты, стипендии, олимпиады, конкурсы,
-программы обмена и поступать в университеты.
+Помогать школьникам и студентам находить образовательные возможности, гранты, стипендии, олимпиады, конкурсы, программы обмена и поступать в университеты.
 
 ТВОИ ВОЗМОЖНОСТИ:
 1. Консультации по грантам и стипендиям.
 2. Подготовка к поступлению в университеты.
 3. Помощь с мотивационными письмами и эссе.
-4. Поиск подходящих образовательных возможностей.
+4. Поиск образовательных возможностей.
 5. Объяснение требований и условий участия.
-6. Составление индивидуальных планов подготовки.
+6. Составление планов подготовки.
 7. Помощь с SAT, IELTS и другими экзаменами.
 8. Консультации по международным программам.
 
@@ -30,33 +20,28 @@ const SYSTEM_PROMPT = `
 - Отвечай на языке пользователя.
 - Поддерживай русский, казахский и английский.
 - Учитывай контекст предыдущих сообщений.
-- Давай структурированные и понятные ответы.
 - Не выдумывай гранты, дедлайны, требования и ссылки.
-- Если не уверен в информации, честно сообщай об этом.
-- Не утверждай, что проверил актуальность информации,
-  если фактически этого не делал.
+- Если не уверен, честно сообщай об этом.
+- Не утверждай, что проверил актуальность информации, если фактически этого не делал.
 - Если информации недостаточно, задай уточняющий вопрос.
-- Не ограничивайся только темой грантов: помогай
-  по всем вопросам образования и поступления.
+- Не ограничивайся только темой грантов: помогай по вопросам образования и поступления.
 
 СТИЛЬ:
-Профессиональный, дружелюбный, современный.
-Не перегружай ответы лишней информацией.
+Профессиональный, дружелюбный, современный. Не перегружай ответы лишней информацией.
 
-Ты представляешь GrantPath — платформу образовательных
-возможностей.
+Ты представляешь GrantPath — платформу образовательных возможностей.
 `;
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({
-      error: "Method not allowed"
-    });
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
-  if (!process.env.GEMINI_API_KEY) {
+  const apiKey = process.env.GEMINI_API_KEY;
+
+  if (!apiKey) {
     return res.status(500).json({
-      error: "AI API key is not configured"
+      error: "GEMINI_API_KEY is not configured"
     });
   }
 
@@ -94,25 +79,46 @@ export default async function handler(req, res) {
       }
     ];
 
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents,
-      config: {
-        systemInstruction: SYSTEM_PROMPT,
-        temperature: 0.7,
-        maxOutputTokens: 2048
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          systemInstruction: {
+            parts: [{ text: SYSTEM_PROMPT }]
+          },
+          contents,
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 2048
+          }
+        })
       }
-    });
+    );
 
-    const answer = response.text;
+    const data = await response.json();
 
-    if (!answer) {
-      throw new Error("Empty AI response");
+    if (!response.ok) {
+      console.error("Gemini API error:", data);
+
+      return res.status(response.status).json({
+        error: data?.error?.message || "Gemini API request failed"
+      });
     }
 
-    return res.status(200).json({
-      answer
-    });
+    const answer = data?.candidates?.[0]?.content?.parts
+      ?.map(part => part.text || "")
+      .join("")
+      .trim();
+
+    if (!answer) {
+      throw new Error("Gemini returned an empty response");
+    }
+
+    return res.status(200).json({ answer });
 
   } catch (error) {
     console.error("GrantPath AI error:", error);
